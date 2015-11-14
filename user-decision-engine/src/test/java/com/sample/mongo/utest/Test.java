@@ -17,7 +17,7 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		WorkflowDomain wf = new WorkflowDomain();
-		
+		System.out.println("Good God");
 		wf.addFacts("tenant", new TenantConfig("Test","123", "IN", null));
 		System.out.println(wf.getFact("tenant", TenantConfig.class).getTenantCountry());
 
