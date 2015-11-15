@@ -10,7 +10,5 @@ public class TENANT_WORKFLOW {
 		TenantConfig config = workFlow.getFact("tenant",TenantConfig.class);
 		System.out.println("Workflow Executed Successfully");
 		
-		
-		
 	}
 }
