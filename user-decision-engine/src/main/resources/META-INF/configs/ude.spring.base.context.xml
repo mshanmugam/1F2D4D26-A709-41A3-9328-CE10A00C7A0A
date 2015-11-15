@@ -20,29 +20,33 @@ http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/da
 		<jaxrs:providers>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
 		</jaxrs:providers>
+		<jaxrs:inInterceptors>
+			<ref bean="user.reg.interceptor"/>
+		</jaxrs:inInterceptors>
 	</jaxrs:server>
 	<bean id="com.user.reg.service"
 		class="com.sample.rest.user.registration.impl.UserRegistrationService">
 		<property name="dataAdapter">
-			<ref bean="registrationAdapter"/>
+			<ref bean="registrationAdapter" />
 		</property>
-		</bean>
+	</bean>
 	<bean id="registrationAdapter"
 		class="com.sample.user.service.orchestration.RegistrationDataAdapter">
 		<property name="configuration">
-			<ref bean="configDAO"/>
+			<ref bean="configDAO" />
 		</property>
 	</bean>
 	<bean id="configDAO"
 		class="com.sample.rest.user.registration.dao.impl.ConfigurationDAOImpl">
 		<property name="operations">
-			<ref bean="mongoTemplate"/>
+			<ref bean="mongoTemplate" />
 		</property>
-		</bean>
+	</bean>
 	<mongo:mongo host="127.0.0.1" port="27017"></mongo:mongo>
 	<mongo:db-factory dbname="tenants" />
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
-
+	<bean id="user.reg.interceptor"
+		class="org.apache.cxf.phase.AbstractPhaseInterceptor.RegistrationRequestInterceptor"></bean>
 </beans>
