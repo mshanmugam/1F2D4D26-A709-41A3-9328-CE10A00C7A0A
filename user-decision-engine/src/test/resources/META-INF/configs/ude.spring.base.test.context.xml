@@ -23,8 +23,8 @@ http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/da
 	</jaxrs:server> -->
 	<bean id="com.user.reg.service"
 		class="com.sample.rest.user.registration.impl.UserRegistrationService"></bean>
-	<mongo:mongo host="127.0.0.1" port="27017"></mongo:mongo>
-	<mongo:db-factory dbname="tenants"/>
+	<mongo:db-factory dbname="tenants" host="127.11.145.2"
+		port="27017" username="admin" password="U6jnzwhRGY5Z" />
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
