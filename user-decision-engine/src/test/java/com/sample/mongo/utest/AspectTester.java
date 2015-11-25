@@ -27,7 +27,7 @@ public class AspectTester {
 	public void testAspect()
 	{
 		TestAspector aspect = (TestAspector)context.getBean("testAspect");
-		System.out.println(aspect.getName(null));
+		System.out.println(aspect.getName("Maruthi"));
 	}
 
 }
