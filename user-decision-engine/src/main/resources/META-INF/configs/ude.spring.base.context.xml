@@ -39,6 +39,10 @@
 		<property name="dataAdapter">
 			<ref bean="registrationAdapter" />
 		</property>
+		<property name="serviceDelegator">
+			<ref bean="tenantServiceDelegator" />
+		</property>
+		
 	</bean>
 	<bean id="registrationAdapter"
 		class="com.sample.user.service.orchestration.RegistrationDataAdapter">
@@ -59,12 +63,6 @@
 	</bean>
 	<bean id="user.reg.interceptor"
 		class="com.sample.rest.user.registration.interceptor.RegistrationRequestInterceptor"></bean>
-	<bean id="businessRuleDAO"
-		class="com.sample.rest.user.registration.dao.impl.BusinessRuleEngineDAOImpl">
-		<property name="operations">
-			<ref bean="mongoTemplate" />
-		</property>
-	</bean>	
 	<bean id="businessRuleDAO"
 		class="com.sample.rest.user.registration.dao.impl.BusinessRuleEngineDAOImpl">
 		<property name="operations">
