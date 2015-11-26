@@ -3,7 +3,11 @@
  */
 package com.sample.mongo.utest;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -34,10 +38,22 @@ public class MongoDBTest {
 	{
 		MongoOperations operations = (MongoOperations)context.getBean("mongoTemplate");
 		
-		TenantConfig config = new TenantConfig(UUID.randomUUID().toString(), "PNB-METLIFE", "INDIA", null);
-		config.setEnrolledDate(new Date());
-		config.setStatus(true);
-		config.setUpdatedDate(new Date());
+		TenantConfig config = new TenantConfig();
+		config.setTenantName("PNB_METLIFE");
+		config.setTenantCountry("USA");
+		Map tenantSOR = new HashMap();
+		List sorList = new ArrayList();
+		sorList.add("EMAIL_VALIDATE");
+		sorList.add("PULL_EMAIL_SOR");
+		tenantSOR.put("getEmail",sorList);
+		config.setTenantDataSORs(tenantSOR);
+		Map tenantWorkflow = new HashMap();
+		List workflowList = new ArrayList();
+		workflowList.add("WORKFLOW1");
+		workflowList.add("WORKFLOW2");
+		tenantWorkflow.put("getEmail", workflowList);
+		config.setTenantWorkflow(tenantWorkflow);
+		config.setTenantUniqueIdentifier(UUID.randomUUID().toString());
 		operations.save(config);
 		
 	}
@@ -45,10 +61,12 @@ public class MongoDBTest {
 	public void testReadData()
 	{
 		MongoOperations operations = (MongoOperations)context.getBean("mongoTemplate");
+		
 		TenantConfig config = new TenantConfig();
 		config.setTenantName("PNB-METLIFE");
-		Query search = new Query(Criteria.where("tenantName").is("PNB-METLIFE"));
+		Query search = new Query(Criteria.where("tenantName").is("PNB_METLIFE"));
 		TenantConfig output = operations.findOne(search, TenantConfig.class);
+		
 		System.out.println(output.getTenantCountry());
 		
 	}

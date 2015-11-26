@@ -11,10 +11,10 @@ public class TestAspector {
 	@UDETrace(informationGroupTag="[REGISTRATION]",information="Invoking the getName for Registration",logTypes={LogType.TIMER,LogType.ENTRY_EXIT,LogType.EXCEPTION})
 	public String getName(String name)
 	{
-		if(name == null){
+		
 			return name.toString();
-		}
-		return "Name_Success";
+		
+		//return "Name_Success";
 	}
 
 }

@@ -27,7 +27,6 @@ public class RegistrationDataAdapter {
 		{
 			config.setTenantUniqueIdentifier(UUID.randomUUID().toString());
 			configuration.insertTenant(config);
-			config.setTenantWorkflow("MASKED");
 			result.put("Registration_Status", "Tenant Registered Successfully");
 			result.put("tenantDetail", config);
 		}else{
@@ -38,7 +37,7 @@ public class RegistrationDataAdapter {
 		return result;
 	}
 	
-	public Map<String,Object> updateTenant(TenantConfig config)
+	public Map<String,Object> updateTenant(TenantConfig config) throws Exception
 	{
 		Map<String,Object> result = new HashMap<String,Object>();
 		TenantConfig data = null;

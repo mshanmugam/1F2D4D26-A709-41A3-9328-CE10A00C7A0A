@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.cxf.helpers.IOUtils;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +19,13 @@ public class ConfigurationDAOImpl {
 
 	private MongoOperations operations;
 
+	private static ObjectMapper mapper;
+	
+	static{
+		mapper = new ObjectMapper();
+		mapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	}
+	
 	public MongoOperations getOperations() {
 		return operations;
 	}
@@ -26,12 +35,7 @@ public class ConfigurationDAOImpl {
 	}
 
 	public TenantConfig insertTenant(TenantConfig config) throws Exception{
-		if(config.getTenantWorkflow() == null)
-		{
-			InputStream is = this.getClass().getClassLoader().getResourceAsStream("/META-INF/workflow/TENANT_WF.groovy");
-			String str = IOUtils.toString(is);
-			config.setTenantWorkflow(str);
-		}
+
 		operations.save(config);
 
 		return config;
@@ -42,11 +46,11 @@ public class ConfigurationDAOImpl {
 		query.addCriteria(Criteria.where("tenantName").is(config.getTenantName()));
 
 		operations.updateFirst(query, Update.update("status", config.isStatus()).update("updatedDate", new Date())
-				.update("tenantWorkflow", config.getTenantWorkflow()), TenantConfig.class);
+				.update("tenantWorkflow", config.getTenantWorkflow()).update("tenantDataSORs", config.getTenantDataSORs()), TenantConfig.class);
 		return config;
 	}
 	
-	public TenantConfig readTenant(TenantConfig config)
+	public TenantConfig readTenant(TenantConfig config) throws Exception
 	{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("tenantName").is(config.getTenantName()));

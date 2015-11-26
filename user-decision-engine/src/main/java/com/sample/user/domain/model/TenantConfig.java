@@ -4,6 +4,8 @@
 package com.sample.user.domain.model;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @author maruthishanmugam
  *
  */
+@SuppressWarnings("all")
 @Document(collection="tenantconfig")
 public class TenantConfig {
 	@Id
@@ -23,7 +26,9 @@ public class TenantConfig {
 	
 	private String tenantCountry;
 	
-	private String tenantWorkflow;
+	private Map tenantWorkflow;
+	
+	private Map tenantDataSORs;
 	
 	private Date enrolledDate;
 	
@@ -59,12 +64,12 @@ public class TenantConfig {
 	{
 		
 	}
-	public TenantConfig(String tenantUniqueIdentifier,String tenantName,String tenantCountry,String tenantWorkflow)
+	public TenantConfig(String tenantUniqueIdentifier,String tenantName,String tenantCountry)
 	{
 		this.tenantUniqueIdentifier=tenantUniqueIdentifier;
 		this.tenantCountry=tenantCountry;
 		this.tenantName=tenantName;
-		this.tenantWorkflow=tenantWorkflow;
+		
 	}
 
 	public String getTenantUniqueIdentifier() {
@@ -91,12 +96,20 @@ public class TenantConfig {
 		this.tenantCountry = tenantCountry;
 	}
 
-	public String getTenantWorkflow() {
+	public Map getTenantWorkflow() {
 		return tenantWorkflow;
 	}
 
-	public void setTenantWorkflow(String tenantWorkflow) {
+	public void setTenantWorkflow(Map tenantWorkflow) {
 		this.tenantWorkflow = tenantWorkflow;
+	}
+
+	public Map getTenantDataSORs() {
+		return tenantDataSORs;
+	}
+
+	public void setTenantDataSORs(Map<String,List<String>> tenantDataSORs) {
+		this.tenantDataSORs = tenantDataSORs;
 	}
 
 

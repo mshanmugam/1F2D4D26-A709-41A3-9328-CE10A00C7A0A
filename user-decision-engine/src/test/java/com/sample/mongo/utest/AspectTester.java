@@ -24,10 +24,11 @@ public class AspectTester {
 	}
 	
 	@Test
-	public void testAspect()
+	public void testAspect() throws Exception
 	{
 		TestAspector aspect = (TestAspector)context.getBean("testAspect");
 		System.out.println(aspect.getName("Maruthi"));
+		Thread.sleep(30000);
 	}
 
 }

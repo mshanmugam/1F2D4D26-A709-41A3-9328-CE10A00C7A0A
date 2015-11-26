@@ -2,13 +2,23 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
- http://www.springframework.org/schema/beans
- http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
- http://www.springframework.org/schema/context
- http://www.springframework.org/schema/context/spring-context-4.0.xsd http://cxf.apache.org/jaxrs
-http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/data/mongo
-          http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+	http://cxf.apache.org/jaxrs 
+	http://cxf.apache.org/schemas/jaxrs.xsd 
+	http://www.springframework.org/schema/data/mongo 
+	http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+
+	<aop:aspectj-autoproxy />
+	<task:annotation-driven/>
 
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
@@ -42,11 +52,40 @@ http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/da
 			<ref bean="mongoTemplate" />
 		</property>
 	</bean>
-	<mongo:db-factory dbname="tenants" host="127.11.145.2"
-		port="27017" username="admin" password="U6jnzwhRGY5Z" />
+	<mongo:mongo host="127.0.0.1" port="27017"></mongo:mongo>
+	<mongo:db-factory dbname="tenants" />
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
 	<bean id="user.reg.interceptor"
-		class="org.apache.cxf.phase.AbstractPhaseInterceptor.RegistrationRequestInterceptor"></bean>
+		class="com.sample.rest.user.registration.interceptor.RegistrationRequestInterceptor"></bean>
+	<bean id="businessRuleDAO"
+		class="com.sample.rest.user.registration.dao.impl.BusinessRuleEngineDAOImpl">
+		<property name="operations">
+			<ref bean="mongoTemplate" />
+		</property>
+	</bean>	
+	<bean id="businessRuleDAO"
+		class="com.sample.rest.user.registration.dao.impl.BusinessRuleEngineDAOImpl">
+		<property name="operations">
+			<ref bean="mongoTemplate" />
+		</property>
+	</bean>
+	<bean id="usertrace.aspect"
+		class="com.sample.rest.user.registration.annotation.UDEAspectTracer"></bean>
+	<bean id="testAspect" class="com.sample.user.service.orchestration.TestAspector">
+	</bean>
+	<bean id="workflowEngine" class="com.sample.user.service.orchestration.WorkflowEngine" init-method="init">
+		<property name="businessRules">
+			<ref bean="businessRuleDAO" />
+		</property>
+	</bean>	
+	<bean id="tenantServiceDelegator" class="com.sample.user.service.orchestration.TenantServiceDelegator" >
+		<property name="engine">
+			<ref bean="workflowEngine" />
+		</property>
+		<property name="configuration">
+			<ref bean="configDAO"/>
+		</property>
+	</bean>			
 </beans>
