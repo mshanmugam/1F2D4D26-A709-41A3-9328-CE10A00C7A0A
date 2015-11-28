@@ -9,6 +9,7 @@ import java.util.Map;
 import com.sample.rest.user.registration.dao.impl.ConfigurationDAOImpl;
 import com.sample.user.domain.model.TenantConfig;
 import com.sample.user.domain.model.WorkflowDomain;
+import com.sample.user.service.exception.ServiceNotFoundException;
 
 /**
  * @author maruthishanmugam
@@ -35,7 +36,9 @@ public class TenantServiceDelegator {
 			}
 		}
 		Map<String,List<String>> dataSORs = config.getTenantDataSORs();
+		
 		List<String> sors = (List<String>)dataSORs.get(uri);
+		
 		WorkflowDomain domain = new WorkflowDomain();
 		domain.addFacts("request", request);
 		domain.addFacts("tenantConfig", config);
@@ -44,7 +47,7 @@ public class TenantServiceDelegator {
 			System.out.println("SORs workflow being executed");
 			engine.runWorkFlow(config, domain, sors);
 		}else{
-			System.out.println("No SORs available for execution");
+			throw new ServiceNotFoundException("No URL found for the service : "+uri);
 		}
 		Object response = domain.getFact("response", Object.class);
 		return response;

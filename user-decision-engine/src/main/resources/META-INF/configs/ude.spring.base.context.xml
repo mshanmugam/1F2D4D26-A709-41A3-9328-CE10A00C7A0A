@@ -28,12 +28,16 @@
 			<ref bean="com.user.reg.service" />
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
+			<ref bean="exceptionMapper"/>
 			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+			
 		</jaxrs:providers>
 		<jaxrs:inInterceptors>
 			<ref bean="user.reg.interceptor"/>
 		</jaxrs:inInterceptors>
+		
 	</jaxrs:server>
+	<bean id="exceptionMapper" class="com.sample.rest.user.registration.interceptor.RestExceptionMapper"></bean>
 	<bean id="com.user.reg.service"
 		class="com.sample.rest.user.registration.impl.UserRegistrationService">
 		<property name="dataAdapter">
