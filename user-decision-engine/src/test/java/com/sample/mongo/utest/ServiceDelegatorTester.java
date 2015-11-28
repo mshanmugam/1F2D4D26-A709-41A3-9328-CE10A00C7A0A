@@ -32,7 +32,7 @@ public class ServiceDelegatorTester {
 	@org.junit.Test
 	public void testDelegate() throws Exception
 	{
-		TenantConfig config = new TenantConfig();
+		TenantConfig  config = new TenantConfig();
 		config.setTenantName("PNB_METLIFE");
 		Map<String,List<String>> tenantSOR = new HashMap<String,List<String>>();
 		List<String> sorList = new ArrayList<String>();

@@ -62,7 +62,7 @@ public class UserRegistrationService {
 	@Produces(MediaType.APPLICATION_JSON)	
 	public Object dynamicTenantServices(@PathParam("query") String query, Map<String, Object> request) throws Exception{
 		Object result = serviceDelegator.delegateTenantFunctions(null, request, query);
-
+ 
 		return result;
 	}
 

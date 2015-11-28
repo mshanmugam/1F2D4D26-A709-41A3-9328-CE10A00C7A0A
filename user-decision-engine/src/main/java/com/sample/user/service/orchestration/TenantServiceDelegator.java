@@ -3,12 +3,14 @@
  */
 package com.sample.user.service.orchestration;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.sample.rest.user.registration.dao.impl.ConfigurationDAOImpl;
 import com.sample.user.domain.model.TenantConfig;
 import com.sample.user.domain.model.WorkflowDomain;
+import com.sample.user.service.exception.BusinessException;
 import com.sample.user.service.exception.ServiceNotFoundException;
 
 /**
@@ -27,12 +29,17 @@ public class TenantServiceDelegator {
 		if(config == null)
 		{
 			String tenantName = (String)request.get("tenantName");
-			TenantConfig query = new TenantConfig();
+			TenantConfig  query = new TenantConfig();
 			query.setTenantName(tenantName);
 			config = configuration.readTenant(query);
 			if(config == null)
 			{
-				throw new Exception("No Tenant Available for the Tenant Name : "+tenantName);
+				Map<String,String> errorDetail = new HashMap<String,String>();
+				errorDetail.put("status", "Validation_Failure");
+				errorDetail.put("errorCode", "500_01_1009");
+				errorDetail.put("statusCode", "V");
+				errorDetail.put("detail", "Tenant Not available :"+tenantName);
+				throw new BusinessException(errorDetail,"No Tenant Available for the Tenant Name : "+tenantName);
 			}
 		}
 		Map<String,List<String>> dataSORs = config.getTenantDataSORs();
