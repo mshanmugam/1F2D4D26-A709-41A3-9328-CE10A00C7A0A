@@ -16,7 +16,7 @@
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-
+ 
 	<aop:aspectj-autoproxy />
 	<task:annotation-driven/>
 	<!-- <import resource="classpath:META-INF/cxf/cxf.xml" /> <import resource="classpath:META-INF/cxf/cxf-servlet.xml" 

@@ -8,10 +8,10 @@ import com.sample.rest.user.registration.annotation.UDETrace;
 
 public class TestAspector {
 	
-	@UDETrace(informationGroupTag="[REGISTRATION]",information="Invoking the getName for Registration",logTypes={LogType.TIMER,LogType.ENTRY_EXIT,LogType.EXCEPTION})
+	@UDETrace(informationGroupTag="[REGISTRATION]",information="Invoking the getName for Registration",logTypes={LogType.ENTRY_EXIT,LogType.TIMER})
 	public String getName(String name)
 	{
-		
+			
 			return name.toString();
 		
 		//return "Name_Success";
