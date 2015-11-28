@@ -19,9 +19,9 @@ public class RestExceptionMapper implements ExceptionMapper<Exception> {
 		
 		if(exception instanceof ServiceNotFoundException)
 		{
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).header("X-Error-Reason-Msg", exception.getMessage()).build();
 		}else{
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("X-Error-Reason-Msg", exception.getMessage()).build();
 		}
 		
 		// TODO Auto-generated method stub
