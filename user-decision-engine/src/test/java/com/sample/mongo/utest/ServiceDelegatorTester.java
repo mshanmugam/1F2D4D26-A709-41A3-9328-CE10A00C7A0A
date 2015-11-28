@@ -44,7 +44,7 @@ public class ServiceDelegatorTester {
 		request.put("SSN", "823784098");
 		request.put("tenantName", "PNB_METLIFE");
 		TenantServiceDelegator delegator =(TenantServiceDelegator) context.getBean("tenantServiceDelegator");
-		Object response = delegator.delegateTenantFunctions(null, request, "getEmail");
+		Object response = delegator.delegateTenantFunctions(null, request, "getAPR");
 		System.out.println(new ObjectMapper().writeValueAsString(response));
 		
 	}

@@ -29,22 +29,17 @@ public class BusinessRuleLoaderTester {
 		context=new ClassPathXmlApplicationContext("/META-INF/configs/ude.spring.base.test.context.xml");
 	}
 	
-	//@org.junit.Test
+	@org.junit.Test
 	public void testInsertData() throws Exception
 	{
 		MongoOperations operations = (MongoOperations)context.getBean("mongoTemplate");
 		BusinessRuleConfig config = new BusinessRuleConfig();
-		config.setName("EMAIL_VALIDATE");
-		InputStream is = this.getClass().getClassLoader().getResourceAsStream("META-INF/workflow/EMAIL_VALIDATE.groovy");
+		config.setName("GET_APR_INDIA");
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("META-INF/workflow/GET_APR_INDIA.groovy");
 		String str = IOUtils.toString(is);
 		config.setContent(str);
 		operations.insert(config);
-		BusinessRuleConfig config1 = new BusinessRuleConfig();
-		config1.setName("PULL_EMAIL_SOR");
-		 is = this.getClass().getClassLoader().getResourceAsStream("META-INF/workflow/PULL_EMAIL_SOR.groovy");
-		 str = IOUtils.toString(is);
-		config1.setContent(str);
-		operations.insert(config1);
+		
 
 		
 		

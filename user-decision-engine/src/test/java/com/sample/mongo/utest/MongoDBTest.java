@@ -33,13 +33,13 @@ public class MongoDBTest {
 		context=new ClassPathXmlApplicationContext("/META-INF/configs/ude.spring.base.test.context.xml");
 	}
 	
-	//@Test
+	@Test
 	public void testInsertData()
 	{
 		MongoOperations operations = (MongoOperations)context.getBean("mongoTemplate");
 		
 		TenantConfig config = new TenantConfig();
-		config.setTenantName("PNB_METLIFE");
+		config.setTenantName("ICICI_METLIFE");
 		config.setTenantCountry("USA");
 		Map tenantSOR = new HashMap();
 		List sorList = new ArrayList();
