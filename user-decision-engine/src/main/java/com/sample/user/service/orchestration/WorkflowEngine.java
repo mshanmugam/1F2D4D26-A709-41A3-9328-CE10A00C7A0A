@@ -72,8 +72,15 @@ public class WorkflowEngine implements ApplicationContextAware {
 				if (businessRuleConfig.getContent() != null) {
 					Class groovyClass = gcLoader.parseClass(businessRuleConfig.getContent(),
 							businessRuleConfig.getName() + ".groovy");
+					if(groovyClass.isInterface())
+					{
+						System.out.println("Skip Instantiating");
+					}else{
+						
+					
 					GroovyObject object = (GroovyObject) groovyClass.newInstance();
 					workflowMap.put(businessRuleConfig.getName(), object);
+					}
 
 				}
 			}
